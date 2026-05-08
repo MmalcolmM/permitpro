@@ -2,16 +2,13 @@ const express = require("express");
 const cors = require("cors");
 const pool = require("./db");
 const residentsRoutes = require("./routes/residents");
+const vehiclesRoutes = require('./routes/vehicles');
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 app.use("/residents", residentsRoutes);
-
-app.get("/debug-residents", async (req, res) => {
-    const result = await pool.query("SELECT * FROM residents");
-    res.json(result.rows);
-  });
+app.use("/vehicles", vehiclesRoutes);
 
 app.get("/", async (req, res) => {
     try {
