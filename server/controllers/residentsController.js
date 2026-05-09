@@ -29,11 +29,20 @@ exports.createResident = async (req, res) => {
 exports.deleteResident = async (req, res) => {
     try {
       const { id } = req.params;
-  
+      
+      const resident = await pool.query(
+        "SELECT * FROM residents WHERE id = $1",
+        [id]
+      );
+
+      if (resident.rows.length === 0){
+        return res.status(404).json({error: "Resident not found"})
+      }
+
       await pool.query("DELETE FROM residents WHERE id = $1", [id]);
   
       res.json({ message: "Resident deleted" });
     } catch (err) {
-      res.status(500).json({ error: err.message });
+      res.status(500).json({ error: "Server Error" });
     }
   };

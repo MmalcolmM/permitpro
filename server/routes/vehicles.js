@@ -5,19 +5,12 @@ const controller = require("../controllers/vehiclesController");
 router.get("/", controller.getVehicles);
 router.post("/", controller.createVehicle);
 router.get("/plate/:plate_number", controller.getVehicleByPlate);
-
+router.get("/:id", controller.getVehicleById);
+router.delete("/:id", controller.deleteVehicle);
 
 
 
 module.exports = router;
-
-
-
-
-
-
-
-
 
 
 
