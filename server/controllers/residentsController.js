@@ -21,7 +21,19 @@ exports.createResident = async (req, res) => {
     if (!first_name || !last_name || !apartment_number) {
       return res.status(400).json({ error: "Missing required fields" });
     }
-
+    const existingResident = await pool.query(
+      `SELECT * FROM residents
+       WHERE first_name = $1
+       AND last_name = $2
+       AND apartment_number = $3`,
+      [first_name, last_name, apartment_number]
+    );
+    
+    if (existingResident.rows.length > 0) {
+      return res.status(400).json({
+        error: "Resident already exists"
+      });
+    }
     /*
      * Parameterized query ($1, $2, ...): driver sends values separately from SQL text—prevents SQL injection even if
      * strings contained quotes or malicious fragments.

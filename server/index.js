@@ -1,9 +1,11 @@
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const pool = require("./db");
 const residentsRoutes = require("./routes/residents");
 const vehiclesRoutes = require("./routes/vehicles");
 const violationsRoutes = require("./routes/violations");
+const authRoutes = require("./routes/auth")
 const app = express();
 
 /*
@@ -28,6 +30,7 @@ app.use(express.json());
 app.use("/residents", residentsRoutes);
 app.use("/vehicles", vehiclesRoutes);
 app.use("/violations", violationsRoutes);
+app.use("/auth", authRoutes);
 
 /*
  * Sanity route: proves HTTP + DB in one round-trip.
